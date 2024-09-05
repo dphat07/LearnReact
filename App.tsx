@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Alert, Button, FlatList, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import FlexBox from './components/flexbox';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface ITOdo
 {
@@ -47,43 +47,49 @@ export default function App() {
 
   //jsx
   return (
-    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss}>
-    //   <View style={styles.container}>
-    //     {/* header */}
-    //     <Text style= {styles.header}>Todo App</Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss}>
+      <View style={styles.container}>
+        {/* header */}
+        <Text style= {styles.header}>Todo App</Text>
         
-    //     {/* from */}
-    //     <View style = {styles.body}>
-    //       <TextInput
-    //         value={todo}
-    //         style={styles.todoInput} 
-    //         onChangeText={(value) => setTodo(value)}
-    //       />
-    //       <Button
-    //         title='Add todo'
-    //         onPress={ handleAddTodo}  
-    //       />
+        {/* from */}
+        <View style = {styles.form}>
+          <TextInput
+            value={todo}
+            style={styles.todoInput} 
+            onChangeText={(value) => setTodo(value)}
+          />
+          <Button
+            title='Add todo'
+            onPress={ handleAddTodo}  
+          />
 
-    //     {/* todo list */}
-    //     </View>
-    //       <FlatList 
-    //         data={lisTodo}
-    //         keyExtractor={item => item.id + ""}
-    //         renderItem={({item}) => {
-    //           return(
-    //             <Pressable 
-    //               onPress={() => deleteTodo(item.id)}
-    //               style={({pressed}) => ({opacity: pressed ? 0.5 : 1})}>
-    //               <Text style={styles.todoItem}>{item.name}</Text>
-    //             </Pressable>
-    //           )
-    //         }}
-    //       />
-    //     <View>
-    //     </View>
-    //   </View>
-    // </TouchableWithoutFeedback>
-    <FlexBox/>
+        </View>
+        {/* todo list */}
+        <View style = {styles.todo}>
+          <FlatList 
+              data={lisTodo}
+              keyExtractor={item => item.id + ""}
+              renderItem={({item}) => {
+                return(
+                  <Pressable 
+                    onPress={() => deleteTodo(item.id)}
+                    style={({pressed}) => ({opacity: pressed ? 0.5 : 1})}>
+
+                      <View style ={styles.groupTodo}>
+                        <Text style={styles.todoItem}>{item.name}</Text>
+                        <AntDesign name="close" size={24} color="black" />
+                      </View>
+                   
+                  </Pressable>
+                )
+              }}
+            />
+        </View>
+      
+      </View>
+    </TouchableWithoutFeedback>
+    // <FlexBox/>
     
   );
 }
@@ -91,39 +97,65 @@ export default function App() {
 
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop:50,
+    flex: 1,
+    backgroundColor: '#fff',
+    borderColor:'red',
+    borderWidth:1
+   
+  },
+  
   header:
   {
     backgroundColor:"orange",
     fontSize: 60,
     textAlign: "center",
     paddingHorizontal:20,
+  },
 
+  form:
+  {
+    //flex:2
+    marginBottom:20
   },
-  container: {
-    paddingTop:50,
-    flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+
+  todo:
+  {
+    flex:8
   },
+ 
   todoInput: 
   {
     padding: 5,
     borderBottomWidth: 1,
-    paddingHorizontal: 5,
-    margin: 15,
+    margin:15,
     borderBottomColor:"green"
   },
   todoItem:
   {
-    fontSize:30,
-    padding:15,
-    marginTop:10,
-    backgroundColor:'pink'
+    fontSize:20,
+ 
+    
+    
   },
   body:
   {
-    paddingHorizontal:10
+    paddingHorizontal:10,
+    marginBottom:20,
+    flex:1
+  },
+
+  groupTodo:
+  {
+    padding:15,
+    flexDirection:'row',
+    alignItems:'center',
+    borderWidth:1,
+    borderStyle:'dashed',
+    marginBottom:15,
+    marginHorizontal:15,
+    justifyContent:'space-between'
   }
  
 });
