@@ -6,6 +6,11 @@ import AboutScreen from "./components/review/about";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { OPEN_SANS } from "./utils/const";
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 
 SplashScreen.preventAutoHideAsync();
@@ -23,24 +28,37 @@ const styles = StyleSheet.create({
 
 const App = () => {
     const [loaded, error] = useFonts({
-        'OpenSans-Regular': require('./assets/fonts/OpenSans-Regular.ttf'),
-      });
-    
-      useEffect(() => {
-        if (loaded || error) {
-          SplashScreen.hideAsync();
-        }
-      }, [loaded, error]);
-    
-      if (!loaded && !error) {
-        return null;
-      }
+        [OPEN_SANS]: require('./assets/fonts/OpenSans-Regular.ttf'),
+    });
+
+    useEffect(() => {
+    if (loaded || error) {
+        SplashScreen.hideAsync();
+    }
+    }, [loaded, error]);
+
+    if (!loaded && !error) {
+    return null;
+    }
+
+    const Stack = createNativeStackNavigator<RootStackParamList>();
     return (
-        <View>
-            <HomeScreen/>
-            <DetailScreen/>
-            <AboutScreen/>
-        </View>
+        // <View>
+        //     <HomeScreen/>
+        //     <DetailScreen/>
+        //     <AboutScreen/>
+        // </View>
+        <NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen 
+            name="home"
+            component={HomeScreen} 
+            options={{title:'Trang chủ'}}/>
+            <Stack.Screen name="detail" component={DetailScreen } 
+            options={{title:'Chi tiết'}}/>
+          
+        </Stack.Navigator>
+        </NavigationContainer>
     )
     
 }
